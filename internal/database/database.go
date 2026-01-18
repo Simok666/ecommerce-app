@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/Simok666/ecommerce-app.git/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -28,5 +29,11 @@ func ConnectDatabase() {
 	}
 
 	DB = database
-	log.Println("Database connected successfully")
+
+	err = DB.AutoMigrate(&models.User{})
+	if err != nil {
+		log.Fatal("failed to migrate database:", err)
+	}
+
+	log.Println("Database connected & migrated")
 }
