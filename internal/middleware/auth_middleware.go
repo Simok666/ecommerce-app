@@ -5,13 +5,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Simok666/ecommerce-app.git/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
 
 func AuthMiddleware() gin.HandlerFunc {
-	log := logger.InitLogger()
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 
@@ -38,12 +36,6 @@ func AuthMiddleware() gin.HandlerFunc {
 			return secret, nil
 		})
 
-		log.Info("token parsed",
-			"valid", token.Valid,
-			"method", token.Method.Alg(),
-			"claims", token.Claims,
-		)
-
 		if err != nil || !token.Valid {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "cok or Expired token"})
 			c.Abort()
@@ -59,6 +51,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		c.Set("user_id", claims["user_id"])
+		c.Set("role", claims["role"])
 
 		c.Next()
 

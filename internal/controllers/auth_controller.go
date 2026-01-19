@@ -27,6 +27,7 @@ func Register(c *gin.Context) {
 		Name:     req.Name,
 		Email:    req.Email,
 		Password: hashedPassword,
+		Role:     "user",
 	}
 
 	if err := database.DB.Create(&user).Error; err != nil {
@@ -56,7 +57,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := services.GenerateToken(user.ID.String())
+	token, err := services.GenerateToken(user.ID.String(), user.Role)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
