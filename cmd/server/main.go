@@ -16,6 +16,7 @@ func main() {
 	r := gin.Default()
 
 	routes.AuthRoutes(r)
+	routes.UserRoutes(r)
 
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{
