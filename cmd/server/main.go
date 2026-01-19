@@ -14,9 +14,11 @@ func main() {
 	database.ConnectDatabase()
 
 	r := gin.Default()
+	r.Static("/uploads", "./uploads")
 
 	routes.AuthRoutes(r)
 	routes.UserRoutes(r)
+	routes.ProductRoutes(r)
 
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{

@@ -30,10 +30,17 @@ func ConnectDatabase() {
 
 	DB = database
 
-	err = DB.AutoMigrate(&models.User{})
+	err = DB.AutoMigrate(
+		&models.User{},
+		&models.Product{},
+		&models.ProductImage{},
+	)
+
 	if err != nil {
 		log.Fatal("failed to migrate database:", err)
 	}
+
+	SeedAdmin()
 
 	log.Println("Database connected & migrated")
 }

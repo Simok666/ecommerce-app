@@ -1,0 +1,18 @@
+package controllers
+
+type CreateProductRequest struct {
+	Name        string  `json:"name" binding:"required"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price" binding:"required","gt=0"`
+	Stock       int     `json:"stock" binding:"required","gte=0"`
+	ImageURL    string  `json:"image_url"`
+}
+
+type UpdateProductRequest struct {
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price" binding:"omitempty,gt=0"`
+	Stock       int     `json:"stock" binding:"omitempty,gte=0"`
+	ImageURL    string  `json:"image_url"`
+	IsActive    *bool   `json:"is_active"`
+}
